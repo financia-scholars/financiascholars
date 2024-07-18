@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Finance Term Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #1da9cc;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .description {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .word-bank {
+            display: flex;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+        }
+
+        .word {
+            display: inline-block;
+            background-color: #37cc1d;
+            color: #333;
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .word:hover {
+            background-color: #bbb;
+        }
+
+        .selected {
+            background-color: #333;
+            color: #fff;
+        }
+
+        .selected:hover {
+            background-color: #555;
+        }
+
+        .result {
+            text-align: center;
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: green;  /* Added line */
+        }
+
+        .result.correct {  /* Modified line */
+            color: green;
+        }
+
+        .result.incorrect {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <h1>Finance Term Game</h1>
+    <div class="container">
+        <div id="description" class="description"></div>
+        <div class="word-bank"></div>
+        <button id="submitBtn">Submit</button>
+        <div id="result" class="result"></div>
+    </div>
+
+    <script>
+        var termMap = {
+            "The coins and bills we use to buy things.": "Money",
+            "Money that you keep aside for future needs or wants.": "Savings",
+            "A plan that helps you decide how to spend and save your money.": "Budget",
+            "The money you earn from doing chores or having a job.": "Income",
+            "The things you spend money on, like toys, snacks, or games.": "Expenses",
+            "Money you owe to someone because you borrowed it.": "Debt",
+            "A way of borrowing money with a promise to pay it back later.": "Credit",
+            "Money that you borrow from a bank or someone else, which you have to repay with interest.": "Loan",
+            "An extra amount of money you pay when you borrow money or earn when you save money in a bank.": "Interest",
+            "Putting money into something, like stocks or a business, with the hope of making more money in the future.": "Investment",
+            "Shares of ownership in a company that you can buy and sell.": "Stocks",
+            "A portion of a company's profits that it shares with its stockholders.": "Dividend",
+            "Someone who starts and runs their own business.": "Entrepreneur",
+            "When prices for things go up over time, and your money can buy less.": "Inflation",
+            "Money that you pay to the government to help pay for public services like schools, roads, and hospitals.": "Taxes",
+            "Something you want to achieve with your money, like saving for a new bike or a vacation.": "Financial Goal"
+        };
+
+        var descriptions = Object.keys(termMap);
+        var terms = Object.values(termMap);
+
+        var sortedDescriptions = descriptions.slice().sort();
+        var sortedTerms = terms.slice().sort();
+
+        var currentIndex = 0;
+        var selectedTerm = "";
+
+        function showNextDescription() {
+            if (currentIndex < sortedDescriptions.length) {
+                var description = sortedDescriptions[currentIndex];
+                document.getElementById("description").textContent = description;
+                document.querySelector(".word-bank").innerHTML = "";
+
+                for (var i = 0; i < sortedTerms.length; i++) {
+                    var word = document.createElement("span");
+                    word.textContent = sortedTerms[i];
+                    word.className = "word";
+                    word.addEventListener("click", selectTerm);
+                    document.querySelector(".word-bank").appendChild(word);
+                }
+
+                selectedTerm = termMap[description];
+                currentIndex++;
+            } else {
+                document.getElementById("description").textContent = "";
+                document.querySelector(".word-bank").innerHTML = "";
+                document.getElementById("submitBtn").disabled = true;
+            }
+        }
+
+        function selectTerm() {
+            var selectedWords = document.querySelectorAll(".word.selected");
+
+            if (selectedWords.length > 0) {
+                selectedWords.forEach(function(word) {
+                    word.classList.remove("selected");
+                });
+            }
+
+            this.classList.add("selected");
+            selectedTerm = this.textContent;
+        }
+
+        function submitAnswer() {
+            var result = document.getElementById("result");
+
+            if (selectedTerm.toLowerCase() == termMap[sortedDescriptions[currentIndex - 1]].toLowerCase()) {
+                result.textContent = "Correct!";
+                result.classList.remove("incorrect");
+                result.classList.add("correct");
+            } else {
+                result.textContent = "Incorrect!";
+                result.classList.remove("correct");
+                result.classList.add("incorrect");
+            }
+
+            setTimeout(function() {
+                result.textContent = "";
+                result.classList.remove("correct", "incorrect");
+                showNextDescription();
+            }, 1500);
+        }
+
+        document.getElementById("submitBtn").addEventListener("click", submitAnswer);
+
+        showNextDescription();
+    </script>
+</body>
+</html>

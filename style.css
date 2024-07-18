@@ -1,0 +1,46 @@
+#container {
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: center;
+    font-family: 'Courier New', Courier, monospace, sans-serif;
+  }
+  h1 {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 30px;
+  }
+  #scenario {
+    font-size: 28px;
+    color: #333;
+    margin-bottom: 20px;
+  }
+  .option-button {
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: #4285F4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    transition: background-color 0.3s;
+  }
+  .option-button:hover {
+    background-color: #3367D6;
+  }
+  #result {
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+  }
+  #score {
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+  }
+  #game-over {
+    font-size: 24px;
+    font-weight: bold;
+    margin-top: 20px;
+    color: #333;
+  }
